@@ -33,7 +33,7 @@ function browserSync(done) {
     },
     notify: false,
     ghostMode: false,
-    port: 8081
+    port: process.env.PORT
   });
   done();
 }
