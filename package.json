@@ -4,7 +4,7 @@
     "version": "4.1.1",
     "scripts": {
         "build": "gulp",
-        "postinstall": "node_modules/.bin/gulp default"
+        "start": "npm start"
     },
     "description": "An open source Bootstrap 4 admin theme.",
     "keywords": [
