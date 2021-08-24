@@ -3,7 +3,7 @@
     "name": "startbootstrap-sb-admin-2",
     "version": "4.1.1",
     "scripts": {
-        "postinstall": "node_modules/.bin/gulp watch",
+        "postinstall": "npm install",
         "start": "npm start"
     },
     "description": "An open source Bootstrap 4 admin theme.",
