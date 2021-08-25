@@ -12,6 +12,8 @@ const plumber = require("gulp-plumber");
 const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
+const mysql = require('mysql');
+const dotenv = require('dotenv').config();
 
 // Load package.json for banner
 const pkg = require('./package.json');
@@ -34,7 +36,7 @@ function browserSync(done) {
     notify: false,
     ghostMode: false,
     open: false,
-    port: process.env.PORT
+    port: process.env.PORT || 8081
   });
   done();
 }
@@ -146,3 +148,15 @@ exports.vendor = vendor;
 exports.build = build;
 exports.watch = watch;
 exports.default = build;
+
+// declare function that can send sql
+function sendSql(email) {
+  var connection = mysql.createConnection(process.env.JAWSDB_URL);
+  connection.connect();
+  let sql = "INSERT INTO `aidndgen-emails` (`email`) VALUES ('" + email + "')";
+  connection.query(sql, function (err, rows, fields) {
+    if (err) throw err;
+    console.log('The solution is: ', rows[0].solution);
+  });
+  connection.end();
+}

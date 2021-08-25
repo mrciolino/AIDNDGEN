@@ -12,20 +12,6 @@ function ValidateEmail(inputText) {
   }
 }
 
-// declare function that can send sql
-const dotenv = require('dotenv').config();
-function sendSql(email) {
-  var mysql = require('mysql');
-  var connection = mysql.createConnection(process.env.JAWSDB_URL);
-  connection.connect();
-  let sql = "INSERT INTO `aidndgen-emails` (`email`) VALUES ('" + email + "')";
-  connection.query(sql, function (err, rows, fields) {
-    if (err) throw err;
-    console.log('The solution is: ', rows[0].solution);
-  });
-  connection.end();
-}
-
 function toast_sub() {
   let email = document.getElementsByName("email")[0].value
   if (ValidateEmail(email) == true) {
