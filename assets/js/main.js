@@ -1,15 +1,37 @@
-function change_example_image(path){
+function change_example_image(path) {
   let image = document.getElementById('example_image');
   image.style = 'background-image: url("' + path + '");'
 }
 
-/**
-* Template Name: Arsha - v4.3.0
-* Template URL: https://bootstrapmade.com/arsha-free-bootstrap-html-template-corporate/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-(function() {
+function ValidateEmail(inputText) {
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  if (inputText.match(mailformat)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function toast_sub() {
+  let email = document.getElementsByName("email")[0].value
+  if (ValidateEmail(email) == true) {
+    Toastify({
+      text: "Thank You For Showing Interest",
+      backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+      className: "info",
+    }).showToast();
+    return;
+  } else {
+    Toastify({
+      text: "Please Enter Valid Email",
+      backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+      className: "info",
+    }).showToast();
+    return;
+  }
+}
+
+(function () {
   "use strict";
 
   /**
@@ -114,7 +136,7 @@ function change_example_image(path){
   /**
    * Mobile nav toggle
    */
-  on('click', '.mobile-nav-toggle', function(e) {
+  on('click', '.mobile-nav-toggle', function (e) {
     select('#navbar').classList.toggle('navbar-mobile')
     this.classList.toggle('bi-list')
     this.classList.toggle('bi-x')
@@ -123,7 +145,7 @@ function change_example_image(path){
   /**
    * Mobile nav dropdowns activate
    */
-  on('click', '.navbar .dropdown > a', function(e) {
+  on('click', '.navbar .dropdown > a', function (e) {
     if (select('#navbar').classList.contains('navbar-mobile')) {
       e.preventDefault()
       this.nextElementSibling.classList.toggle('dropdown-active')
@@ -133,7 +155,7 @@ function change_example_image(path){
   /**
    * Scrool with ofset on links with a class name .scrollto
    */
-  on('click', '.scrollto', function(e) {
+  on('click', '.scrollto', function (e) {
     if (select(this.hash)) {
       e.preventDefault()
 
@@ -184,7 +206,7 @@ function change_example_image(path){
     new Waypoint({
       element: skilsContent,
       offset: '80%',
-      handler: function(direction) {
+      handler: function (direction) {
         let progress = select('.progress .progress-bar', true);
         progress.forEach((el) => {
           el.style.width = el.getAttribute('aria-valuenow') + '%'
@@ -205,9 +227,9 @@ function change_example_image(path){
 
       let portfolioFilters = select('#portfolio-flters li', true);
 
-      on('click', '#portfolio-flters li', function(e) {
+      on('click', '#portfolio-flters li', function (e) {
         e.preventDefault();
-        portfolioFilters.forEach(function(el) {
+        portfolioFilters.forEach(function (el) {
           el.classList.remove('filter-active');
         });
         this.classList.add('filter-active');
@@ -215,7 +237,7 @@ function change_example_image(path){
         portfolioIsotope.arrange({
           filter: this.getAttribute('data-filter')
         });
-        portfolioIsotope.on('arrangeComplete', function() {
+        portfolioIsotope.on('arrangeComplete', function () {
           AOS.refresh()
         });
       }, true);
