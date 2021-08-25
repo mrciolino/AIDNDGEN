@@ -146,16 +146,3 @@ exports.vendor = vendor;
 exports.build = build;
 exports.watch = watch;
 exports.default = build;
-
-// declare function that can send sql
-// function sendSql(email) {
-//   var mysql = require('mysql');
-//   var connection = mysql.createConnection(process.env.JAWSDB_URL);
-//   connection.connect();
-//   let sql = `INSERT INTO users (email) VALUES ('${email}')`;
-//   connection.query(sql, function (err, rows, fields) {
-//     if (err) throw err;
-//     console.log('The solution is: ', rows[0].solution);
-//   });
-//   connection.end();
-// }
