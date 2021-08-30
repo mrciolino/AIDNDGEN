@@ -169,13 +169,11 @@ exports.default = build;
 /////////////////////////////////////// ENDPOINTS ///////////////////////////////////////////////
 
 function sendSql(email) {
+  let sql = "INSERT INTO `aidndgen-emails` (`email`) VALUES ('" + email + "')";
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
   connection.connect();
-  let sql = "INSERT INTO `aidndgen-emails` (`email`) VALUES ('" + email + "')";
   connection.query(sql, function (err, rows, fields) {
-    if (err) throw err;
-    console.log('The solution is: ', rows[0].solution);
-    connection.end();
+    console.log(fields)
   });
   connection.end();
 }
