@@ -13,6 +13,7 @@ const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
 const mysql = require('mysql');
+require('dotenv').config()
 
 // Load package.json for banner
 const pkg = require('./package.json');
@@ -49,7 +50,7 @@ function browserSync(done) {
           }
           sendSql(body.email)
           res.statusCode = 200
-          res.end("OK")
+          return res.end("OK")
         })
       }
     }]
@@ -170,10 +171,10 @@ exports.default = build;
 
 function sendSql(email) {
   let sql = "INSERT INTO `aidndgen-emails` (`email`) VALUES ('" + email + "')";
-  var connection = mysql.createConnection(process.env.JAWSDB_URL);
+  var connection = mysql.createConnection(process.env.JAWSDB_MARIA_URL);
   connection.connect();
-  connection.query(sql, function (err, rows, fields) {
-    console.log(fields)
+  connection.query(sql, function (error, results, fields) {
+    if (error) throw error;
   });
   connection.end();
 }
