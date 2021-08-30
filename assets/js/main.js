@@ -15,21 +15,46 @@ function ValidateEmail(inputText) {
 function toast_sub() {
   let email = document.getElementsByName("email")[0].value
   if (ValidateEmail(email) == true) {
-    Toastify({
-      text: "Thank You For Showing Interest",
-      backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-      className: "info",
-    }).showToast();
-    sendSql(email);
-    return;
+
+    fetch('/record', {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: email
+        })
+      }).then(function (response) {
+        Toastify({
+          text: "Thank You For Showing Interest",
+          backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+          className: "info",
+          duration: 5000
+        }).showToast();
+        document.getElementsByName("email")[0].value = '';
+        document.getElementsByName("email")[0].placeholder = '';
+        console.log(response);
+      })
+      .catch(function (error) {
+        Toastify({
+          text: "Error Submitting Email, Try Again",
+          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+          className: "info",
+          duration: 5000
+        }).showToast();
+        console.log(error);
+      });
   } else {
     Toastify({
       text: "Please Enter Valid Email",
       backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
       className: "info",
+      duration: 5000
     }).showToast();
-    return;
+    console.log("Invalid Email");
   }
+  return;
 }
 
 (function () {

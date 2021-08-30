@@ -13,7 +13,6 @@ const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
 const mysql = require('mysql');
-const dotenv = require('dotenv').config();
 
 // Load package.json for banner
 const pkg = require('./package.json');
@@ -27,16 +26,33 @@ const banner = ['/*!\n',
   '\n'
 ].join('');
 
+var anyBody = require("body/any")
+var http = require("http")
+
 // BrowserSync
 function browserSync(done) {
   browsersync.init({
     server: {
-      baseDir: "./"
+      baseDir: "./",
     },
     notify: false,
     ghostMode: false,
     open: false,
-    port: process.env.PORT || 8081
+    port: process.env.PORT || 8081,
+    middleware: [{
+      route: "/record",
+      handle: function (req, res) {
+        anyBody(req, res, function (err, body) {
+          if (err) {
+            res.statusCode = 500
+            return res.end("ERROR")
+          }
+          sendSql(body.email)
+          res.statusCode = 200
+          res.end("OK")
+        })
+      }
+    }]
   });
   done();
 }
@@ -149,7 +165,9 @@ exports.build = build;
 exports.watch = watch;
 exports.default = build;
 
-// declare function that can send sql
+
+/////////////////////////////////////// ENDPOINTS ///////////////////////////////////////////////
+
 function sendSql(email) {
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
   connection.connect();
@@ -157,6 +175,7 @@ function sendSql(email) {
   connection.query(sql, function (err, rows, fields) {
     if (err) throw err;
     console.log('The solution is: ', rows[0].solution);
+    connection.end();
   });
   connection.end();
 }
