@@ -1,6 +1,33 @@
+document.addEventListener('DOMContentLoaded', function () {
+  change_image_rotation();
+});
+
+let image_user_set = false;
+
 function change_example_image(path) {
   let image = document.getElementById('example_image');
   image.style = 'background-image: url("' + path + '");'
+  image_user_set = true;
+}
+
+function x_second_delay(x) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve('resolved');
+    }, x * 1000);
+  });
+}
+
+async function change_image_rotation() {
+  await x_second_delay(5);
+  console.log('change_image_rotation', image_user_set);
+  if (image_user_set == false) {
+    let accordians_closed = document.getElementsByClassName('collapsed');
+    let random_accordian = accordians_closed[Math.floor(Math.random() * accordians_closed.length)];
+    random_accordian.click();
+    image_user_set = false;
+    change_image_rotation()
+  }
 }
 
 function ValidateEmail(inputText) {
